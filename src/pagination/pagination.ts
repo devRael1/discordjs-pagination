@@ -5,7 +5,10 @@ import {
     MessageButtonStyleResolvable,
     MessageComponentType,
     MessageEmbed,
-    TextChannel
+    TextChannel,
+    Modal,
+    TextInputComponent,
+    ModalActionRowComponent
 } from "discord.js"
 import { TypesButtons, ButtonsValues, PaginationOptions } from "./pagination.i";
 
@@ -112,57 +115,52 @@ export const pagination = async (options: PaginationOptions) => {
     }
 
     const defaultFilter = (interaction: ButtonInteraction) => {
-        if (!interaction.deferred) interaction.deferUpdate();
-        return interaction.user.id === author.id;
+        return interaction.user.id === author.id && parseInt(interaction.customId) <= 4;
     }
 
-    const collectorOptions = (): any => {
+    const collectorOptions = (filter?): any => {
         const opt = {
-            filter: customFilter || defaultFilter,
+            filter: filter || customFilter || defaultFilter,
             componentType: "BUTTON" as MessageComponentType
         }
-
         if (max) opt["max"] = max;
         if (time) opt["time"] = time;
-
         return opt;
     }
 
     const collector = channel.createMessageComponentCollector(collectorOptions());
-    const pageTravelling = new Set();
+    let collectorModal;
 
-    const numberTravel = async () => {
-        if (pageTravelling.has(author.id)) return channel.send("Type `end` to stop page travelling!");
+    if (pageTravel) {
+        collectorModal = channel.createMessageComponentCollector(collectorOptions((_i) => _i.user.id === author.id && parseInt(_i.customId) === 5));
+        collectorModal.on("collect", async (ButtonInteraction) => {
+            // Show modal
+            const modal = new Modal()
+                .setCustomId('choose_page_modal')
+                .setTitle('Choose Page');
 
-        const collectorMessage = channel.createMessageCollector({
-            filter: (msg) => msg.author.id === author.id,
-            time: 30000
-        });
-        const numberTravelMessage = await channel.send(`${author.tag}, you have 30 seconds, send numbers in chat to change pages! Simply type \`end\` to exit from page travelling.`);
-        pageTravelling.add(author.id);
+            const inputPageNumber = new TextInputComponent()
+                .setCustomId('page_number')
+                .setLabel('Enter Page Number')
+                .setStyle('SHORT')
 
-        collectorMessage.on("collect", (message) => {
-            if (message.content.toLowerCase() === "end") {
-                message.delete().catch(() => {});
-                return collectorMessage.stop();
-            }
-            const int = parseInt(message.content);
-            if (isNaN(int) || !(int <= embeds.length) || !(int >= 1)) return;
-            currentPage = int;
+            const buildModal = new MessageActionRow<ModalActionRowComponent>().addComponents(inputPageNumber);
+            modal.addComponents(buildModal);
+            await ButtonInteraction.showModal(modal);
 
-            type === 'interaction' ? initialMessage.editReply({
-                embeds: [changeFooter()],
-                components: components()
-            }) : initialMessage.edit({
-                embeds: [changeFooter()],
-                components: components()
+            await ButtonInteraction.awaitModalSubmit({
+                filter: (_i) => _i.user.id === author.id && _i.customId === 'choose_page_modal',
+                time: 30000,
+            }).then(async (i) => {
+                await i.deferUpdate();
+                const int = parseInt(i.fields.getTextInputValue('page_number'));
+                if (isNaN(int) || !(int <= embeds.length) || !(int >= 1)) return;
+                currentPage = int;
+                initialMessage.edit({
+                    embeds: [changeFooter()],
+                    components: components()
+                });
             });
-            if (message.guild.me.permissions.has("MANAGE_MESSAGES")) message.delete();
-        });
-
-        collectorMessage.on("end", () => {
-            if (numberTravelMessage.deletable) numberTravelMessage.delete();
-            pageTravelling.delete(author.id);
         });
     }
 
@@ -173,21 +171,15 @@ export const pagination = async (options: PaginationOptions) => {
         if (value === 2) currentPage--;
         if (value === 3) currentPage++;
         if (value === 4) currentPage = embeds.length;
-        if (value === 5) await numberTravel();
 
-        type === 'interaction' ? await interaction.update({
-            embeds: [changeFooter()],
-            components: components()
-        }) : await initialMessage.edit({
+        await interaction.update({
             embeds: [changeFooter()],
             components: components()
         });
     });
 
     collector.on("end", () => {
-        type === 'interaction' ? initialMessage.editReply({
-            components: []
-        }) : initialMessage.edit({
+        initialMessage.edit({
             components: []
         });
     });
