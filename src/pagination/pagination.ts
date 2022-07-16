@@ -148,18 +148,14 @@ export const pagination = async (options: PaginationOptions) => {
             const int = parseInt(message.content);
             if (isNaN(int) || !(int <= embeds.length) || !(int >= 1)) return;
             currentPage = int;
-            if (type === 'interaction') {
-                initialMessage.editReply({
-                    embeds: [changeFooter()],
-                    components: components()
-                });
-            } else {
-                initialMessage.edit({
-                    embeds: [changeFooter()],
-                    components: components()
-                });
-            }
 
+            type === 'interaction' ? initialMessage.editReply({
+                embeds: [changeFooter()],
+                components: components()
+            }) : initialMessage.edit({
+                embeds: [changeFooter()],
+                components: components()
+            });
             if (message.guild.me.permissions.has("MANAGE_MESSAGES")) message.delete();
         });
 
@@ -178,29 +174,20 @@ export const pagination = async (options: PaginationOptions) => {
         if (value === 4) currentPage = embeds.length;
         if (value === 5) await numberTravel();
 
-        if (type === 'interaction') {
-            await interaction.update({
-                embeds: [changeFooter()],
-                components: components()
-            });
-        } else {
-            await initialMessage.edit({
-                embeds: [changeFooter()],
-                components: components()
-            });
-        }
-
+        type === 'interaction' ? await interaction.update({
+            embeds: [changeFooter()],
+            components: components()
+        }) : await initialMessage.edit({
+            embeds: [changeFooter()],
+            components: components()
+        });
     });
 
     collector.on("end", () => {
-        if (type === 'interaction') {
-            initialMessage.editReply({
-                components: []
-            });
-        } else {
-            initialMessage.edit({
-                components: []
-            });
-        }
+        type === 'interaction' ? initialMessage.editReply({
+            components: []
+        }) : initialMessage.edit({
+            components: []
+        });
     });
 }
