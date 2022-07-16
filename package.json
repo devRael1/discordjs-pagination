@@ -1,0 +1,23 @@
+{
+  "name": "discordjs-pagination",
+  "version": "1.0.0",
+  "description": "A pagination module for Discord.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pagination",
+    "discord.js",
+    "discordjs-pagination",
+    "discordjs-pagination-module",
+    "embeds",
+    "configurable",
+    "modulable"
+  ],
+  "author": "devRael",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.8.0"
+  }
+}
