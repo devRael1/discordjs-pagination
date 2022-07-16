@@ -167,10 +167,12 @@ export const pagination = async (options: PaginationOptions) => {
     collector.on("collect", async (interaction) => {
         const value = parseInt(interaction.customId) as ButtonsValues;
 
-        if (value === 1) currentPage = 1;
-        if (value === 2) currentPage--;
-        if (value === 3) currentPage++;
-        if (value === 4) currentPage = embeds.length;
+        switch (value) {
+            case 1: currentPage = 1; break;
+            case 2: currentPage--; break;
+            case 3: currentPage++; break;
+            case 4: currentPage = embeds.length; break;
+        }
 
         await interaction.update({
             embeds: [changeFooter()],
