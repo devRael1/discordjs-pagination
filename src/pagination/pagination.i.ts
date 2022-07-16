@@ -72,6 +72,6 @@ export type ButtonsValues = typeof TypesButtons[Keys];
 export interface Buttons {
     value: ButtonsValues
     label?: string|null
-    emoji?: string
+    emoji?: string|null
     style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER"
 }
