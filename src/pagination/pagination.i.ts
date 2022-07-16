@@ -1,15 +1,22 @@
 import {
     ButtonInteraction,
     MessageEmbed,
-    TextChannel,
-    User
+    Message,
+    User,
+    Interaction,
+    CommandInteraction
 } from "discord.js"
 
 export interface PaginationOptions {
     /**
-     * TextChannel to send to
+     * Interaction to reply with the pagination system
      */
-    channel: TextChannel
+    interaction?: CommandInteraction|Interaction
+
+    /**
+     * Message to send the pagination system
+     */
+    message?: Message
 
     /**
      * Author's user class
@@ -37,7 +44,7 @@ export interface PaginationOptions {
     fastSkip?: boolean
 
     /**
-     * how long before buttons get disabled
+     * how long before pagination get disabled
      */
     time?: number
 

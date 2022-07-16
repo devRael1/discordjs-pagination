@@ -5,6 +5,7 @@ import {
     MessageButtonStyleResolvable,
     MessageComponentType,
     MessageEmbed,
+    TextChannel
 } from "discord.js"
 import { ButtonsDefault, ButtonsValues, PaginationOptions } from "./pagination.i";
 
@@ -25,8 +26,11 @@ const defaultStyles = {
 }
 
 export const pagination = async (options: PaginationOptions) => {
-    const { author, channel, embeds, buttons, time, max, customFilter, fastSkip, pageTravel } = options
+    const { interaction, message, author, embeds, buttons, time, max, customFilter, fastSkip, pageTravel } = options
     let currentPage = 1;
+
+    if (!interaction && !message) throw new Error("Pagination requires either an interaction or a message object");
+    const type = interaction ? 'interaction' : 'message';
 
     const getButtonData = (value: ButtonsValues) => {
         return buttons?.find((btn) => btn.value === value);
@@ -82,73 +86,91 @@ export const pagination = async (options: PaginationOptions) => {
         });
     }
 
-    const initialMessage = await channel.send({
-        embeds: [changeFooter()],
-        components: components()
-    });
+    let initialMessage;
+    let channel: TextChannel = message?.channel as TextChannel || interaction?.channel as TextChannel;
 
-    const defaultFilter = (interaction: ButtonInteraction) => {
-        if (!interaction.deferred) interaction.deferUpdate()
-        return interaction.user.id === author.id
+    if (type === 'interaction' && channel) {
+        if (interaction.isCommand() || interaction.isApplicationCommand()) {
+            if (!interaction.replied) {
+                initialMessage = await interaction.reply({
+                    embeds: [changeFooter()],
+                    components: components(),
+                    fetchReply: true
+                });
+            } else {
+                initialMessage = await interaction.editReply({
+                    embeds: [changeFooter()],
+                    components: components()
+                });
+            }
+        }
+    } else if (type === 'message' && channel) {
+        initialMessage = await channel.send({
+            embeds: [changeFooter()],
+            components: components()
+        });
     }
 
-    const filter = customFilter || defaultFilter;
-
-    initialMessage.createMessageComponentCollector({ componentType: "BUTTON"});
+    const defaultFilter = (interaction: ButtonInteraction) => {
+        return interaction.user.id === author.id;
+    }
 
     const collectorOptions = (): any => {
         const opt = {
-            filter,
+            filter: customFilter || defaultFilter,
             componentType: "BUTTON" as MessageComponentType
         }
 
         if (max) opt["max"] = max;
         if (time) opt["time"] = time;
 
-        return opt
+        return opt;
     }
 
-    const collector = channel.createMessageComponentCollector(
-        collectorOptions()
-    );
-
+    const collector = channel.createMessageComponentCollector(collectorOptions());
     const pageTravelling = new Set();
 
     const numberTravel = async () => {
         if (pageTravelling.has(author.id)) return channel.send("Type `end` to stop page travelling!");
 
-        const collector = channel.createMessageCollector({
+        const collectorMessage = channel.createMessageCollector({
             filter: (msg) => msg.author.id === author.id,
             time: 30000
         });
-        const numberTravelMessage = await channel.send(
-            `${author.tag}, you have 30 seconds, send numbers in chat to change pages! Simply type \`end\` to exit from page travelling.`
-        );
+        const numberTravelMessage = await channel.send(`${author.tag}, you have 30 seconds, send numbers in chat to change pages! Simply type \`end\` to exit from page travelling.`);
         pageTravelling.add(author.id);
 
-        collector.on("collect", (message) => {
+        collectorMessage.on("collect", (message) => {
             if (message.content.toLowerCase() === "end") {
                 message.delete().catch(() => {});
-                return collector.stop();
+                return collectorMessage.stop();
             }
             const int = parseInt(message.content);
             if (isNaN(int) || !(int <= embeds.length) || !(int >= 1)) return;
             currentPage = int;
-            initialMessage.edit({
-                embeds: [changeFooter()],
-                components: components()
-            });
+            if (type === 'interaction') {
+                initialMessage.editReply({
+                    embeds: [changeFooter()],
+                    components: components()
+                });
+            } else {
+                initialMessage.edit({
+                    embeds: [changeFooter()],
+                    components: components()
+                });
+            }
+
             if (message.guild.me.permissions.has("MANAGE_MESSAGES")) message.delete();
         });
 
-        collector.on("end", () => {
+        collectorMessage.on("end", () => {
             if (numberTravelMessage.deletable) numberTravelMessage.delete();
             pageTravelling.delete(author.id);
         });
     }
 
     collector.on("collect", async (interaction) => {
-        const value = parseInt(interaction.customId) as ButtonsValues
+        const value = parseInt(interaction.customId) as ButtonsValues;
 
         if (value === 1) currentPage = 1;
         if (value === 2) currentPage--;
@@ -156,15 +178,29 @@ export const pagination = async (options: PaginationOptions) => {
         if (value === 4) currentPage = embeds.length;
         if (value === 5) await numberTravel();
 
-        await initialMessage.edit({
-            embeds: [changeFooter()],
-            components: components()
-        });
+        if (type === 'interaction') {
+            await interaction.update({
+                embeds: [changeFooter()],
+                components: components()
+            });
+        } else {
+            await initialMessage.edit({
+                embeds: [changeFooter()],
+                components: components()
+            });
+        }
+
     });
 
     collector.on("end", () => {
-        initialMessage.edit({
-            components: []
-        });
+        if (type === 'interaction') {
+            initialMessage.editReply({
+                components: []
+            });
+        } else {
+            initialMessage.edit({
+                components: []
+            });
+        }
     });
 }
