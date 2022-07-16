@@ -58,10 +58,10 @@ export const pagination = async (options: PaginationOptions) => {
         return names.reduce(
             (accumulator: MessageButton[], value: ButtonsValues) => {
                 let embed = new MessageButton()
-                    .setEmoji(getButtonData(value)?.emoji || defaultEmojis[resolveButtonName(value)])
                     .setCustomId(value.toString())
                     .setDisabled(state || checkState(value))
                     .setStyle(getButtonData(value)?.style || (defaultStyles[resolveButtonName(value)] as MessageButtonStyleResolvable));
+                if (getButtonData(value)?.emoji !== null) embed.setEmoji(getButtonData(value)?.emoji || defaultEmojis[resolveButtonName(value)])
                 if (getButtonData(value)?.label) embed.setLabel(getButtonData(value)?.label);
                 accumulator.push(embed);
                 return accumulator;
