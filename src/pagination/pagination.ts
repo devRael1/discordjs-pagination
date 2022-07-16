@@ -7,7 +7,7 @@ import {
     MessageEmbed,
     TextChannel
 } from "discord.js"
-import { ButtonsDefault, ButtonsValues, PaginationOptions } from "./pagination.i";
+import { TypesButtons, ButtonsValues, PaginationOptions } from "./pagination.i";
 
 const defaultEmojis = {
     first: "⬅️",
@@ -37,8 +37,8 @@ export const pagination = async (options: PaginationOptions) => {
     }
 
     const resolveButtonName = (value: ButtonsValues) => {
-        return (Object.keys(ButtonsDefault) as (keyof typeof ButtonsDefault)[]).find((key) => {
-            return ButtonsDefault[key] === value;
+        return (Object.keys(TypesButtons) as (keyof typeof TypesButtons)[]).find((key) => {
+            return TypesButtons[key] === value;
         });
     }
 
@@ -112,6 +112,7 @@ export const pagination = async (options: PaginationOptions) => {
     }
 
     const defaultFilter = (interaction: ButtonInteraction) => {
+        if (!interaction.deferred) interaction.deferUpdate();
         return interaction.user.id === author.id;
     }
 

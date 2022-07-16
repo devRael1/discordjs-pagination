@@ -58,7 +58,7 @@ export interface PaginationOptions {
     customFilter?(interaction: ButtonInteraction): boolean
 }
 
-export const ButtonsDefault = {
+export const TypesButtons = {
     first: 1,
     previous: 2,
     next: 3,
@@ -66,8 +66,8 @@ export const ButtonsDefault = {
     number: 5
 } as const;
 
-type Keys = keyof typeof ButtonsDefault;
-export type ButtonsValues = typeof ButtonsDefault[Keys];
+type Keys = keyof typeof TypesButtons;
+export type ButtonsValues = typeof TypesButtons[Keys];
 
 export interface Buttons {
     value: ButtonsValues
