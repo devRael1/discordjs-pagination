@@ -1,5 +1,5 @@
 {
-  "name": "discordjs-pagination",
+  "name": "@devraelfreeze/discordjs-pagination",
   "version": "1.4.0",
   "description": "A pagination module for Discord.js v13",
   "main": "dist/index.js",
@@ -21,6 +21,10 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^13.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devRael1/discordjs-pagination"
   },
   "devDependencies": {
     "create-ts-index": "^1.14.0",
