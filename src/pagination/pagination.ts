@@ -59,7 +59,7 @@ export const pagination = async (options: PaginationOptions) => {
                     .setCustomId(value.toString())
                     .setDisabled(state || checkState(value))
                     .setStyle(getButtonData(value)?.style || (defaultStyles[resolveButtonName(value)] as MessageButtonStyleResolvable));
-                if (getButtonData(value)?.label) embed.setLabel(getButtonData(value).label);
+                if (getButtonData(value)?.label) embed.setLabel(getButtonData(value)?.label);
                 accumulator.push(embed);
                 return accumulator;
             },
