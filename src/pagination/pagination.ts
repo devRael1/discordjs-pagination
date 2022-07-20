@@ -129,11 +129,11 @@ export const pagination = async (options: PaginationOptions) => {
         return opt;
     }
 
-    const collector = channel.createMessageComponentCollector(collectorOptions());
+    const collector = initialMessage.createMessageComponentCollector(collectorOptions());
     let collectorModal;
 
     if (pageTravel) {
-        collectorModal = channel.createMessageComponentCollector(collectorOptions((_i) => _i.user.id === author.id && parseInt(_i.customId) === 5));
+        collectorModal = initialMessage.createMessageComponentCollector(collectorOptions((_i) => _i.user.id === author.id && parseInt(_i.customId) === 5));
         collectorModal.on("collect", async (ButtonInteraction) => {
             // Show modal
             const modal = new Modal()
