@@ -1,14 +1,16 @@
 import {
     ButtonInteraction,
-    MessageActionRow,
-    MessageButton,
-    MessageButtonStyleResolvable,
-    MessageComponentType,
-    MessageEmbed,
-    TextChannel,
-    Modal,
-    TextInputComponent,
-    ModalActionRowComponent
+    ActionRowBuilder,
+    ButtonBuilder,
+    ComponentType,
+    ButtonStyle,
+    InteractionType,
+    EmbedBuilder,
+    BaseGuildTextChannel,
+    ModalBuilder,
+    TextInputBuilder,
+    TextInputStyle,
+    ModalActionRowComponentBuilder
 } from "discord.js"
 import { TypesButtons, ButtonsValues, PaginationOptions } from "./pagination.i";
 
@@ -21,11 +23,11 @@ const defaultEmojis = {
 }
 
 const defaultStyles = {
-    first: "PRIMARY",
-    previous: "PRIMARY",
-    next: "PRIMARY",
-    last: "PRIMARY",
-    number: "SUCCESS"
+    first: ButtonStyle.Primary,
+    previous: ButtonStyle.Primary,
+    next: ButtonStyle.Primary,
+    last:  ButtonStyle.Primary,
+    number:  ButtonStyle.Success
 }
 
 export const pagination = async (options: PaginationOptions) => {
@@ -57,11 +59,11 @@ export const pagination = async (options: PaginationOptions) => {
         if (pageTravel) names.push(5);
 
         return names.reduce(
-            (accumulator: MessageButton[], value: ButtonsValues) => {
-                let embed = new MessageButton()
+            (accumulator: ButtonBuilder[], value: ButtonsValues) => {
+                let embed = new ButtonBuilder()
                     .setCustomId(value.toString())
                     .setDisabled(state || checkState(value))
-                    .setStyle(getButtonData(value)?.style || (defaultStyles[resolveButtonName(value)] as MessageButtonStyleResolvable));
+                    .setStyle(getButtonData(value)?.style || (defaultStyles[resolveButtonName(value)] as ButtonStyle));
                 if (getButtonData(value)?.emoji !== null) embed.setEmoji(getButtonData(value)?.emoji || defaultEmojis[resolveButtonName(value)])
                 if (getButtonData(value)?.label) embed.setLabel(getButtonData(value)?.label);
                 accumulator.push(embed);
@@ -73,12 +75,12 @@ export const pagination = async (options: PaginationOptions) => {
 
 
     const components = (state?: boolean) => [
-        new MessageActionRow().addComponents(generateButtons(state))
+        new ActionRowBuilder<ButtonBuilder>().addComponents(generateButtons(state))
     ]
 
     const changeFooter = () => {
         const embed = embeds[currentPage - 1];
-        const newEmbed = new MessageEmbed(embed);
+        const newEmbed = new EmbedBuilder(embed.toJSON());
         if (embed?.footer?.text) {
             return newEmbed.setFooter({
                 text: `${embed.footer.text} - Page ${currentPage} of ${embeds.length}`,
@@ -91,11 +93,11 @@ export const pagination = async (options: PaginationOptions) => {
     }
 
     let initialMessage;
-    let channel: TextChannel = message?.channel as TextChannel || interaction?.channel as TextChannel;
+    let channel: BaseGuildTextChannel = message?.channel as BaseGuildTextChannel || interaction?.channel as BaseGuildTextChannel;
 
     if (type === 'interaction' && channel) {
-        if (interaction.isCommand() || interaction.isApplicationCommand()) {
-            if (!interaction.replied) {
+        if (interaction.type === InteractionType.ApplicationCommand) {
+            if (!interaction.replied && !interaction.deferred) {
                 initialMessage = await interaction.reply({
                     embeds: [changeFooter()],
                     components: components(),
@@ -122,7 +124,7 @@ export const pagination = async (options: PaginationOptions) => {
     const collectorOptions = (filter?): any => {
         const opt = {
             filter: filter || customFilter || defaultFilter,
-            componentType: "BUTTON" as MessageComponentType
+            componentType: ComponentType.Button
         }
         if (max) opt["max"] = max;
         if (time) opt["time"] = time;
@@ -136,16 +138,16 @@ export const pagination = async (options: PaginationOptions) => {
         collectorModal = initialMessage.createMessageComponentCollector(collectorOptions((_i) => _i.user.id === author.id && parseInt(_i.customId) === 5));
         collectorModal.on("collect", async (ButtonInteraction) => {
             // Show modal
-            const modal = new Modal()
+            const modal = new ModalBuilder()
                 .setCustomId('choose_page_modal')
                 .setTitle('Choose Page');
 
-            const inputPageNumber = new TextInputComponent()
+            const inputPageNumber = new TextInputBuilder()
                 .setCustomId('page_number')
                 .setLabel('Enter Page Number')
-                .setStyle('SHORT')
+                .setStyle(TextInputStyle.Short)
 
-            const buildModal = new MessageActionRow<ModalActionRowComponent>().addComponents(inputPageNumber);
+            const buildModal = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(inputPageNumber);
             modal.addComponents(buildModal);
             await ButtonInteraction.showModal(modal);
 

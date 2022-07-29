@@ -1,7 +1,7 @@
 {
   "name": "@devraelfreeze/discordjs-pagination",
-  "version": "1.8.0",
-  "description": "A pagination module for Discord.js v13",
+  "version": "2.0.0",
+  "description": "A pagination module for Discord.js v13 & v14",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -15,13 +15,12 @@
     "discordjs-pagination-module",
     "embeds",
     "configurable",
-    "modulable"
+    "modulable",
+    "discord.js v13",
+    "discord.js v14"
   ],
   "author": "devRael",
   "license": "MIT",
-  "dependencies": {
-    "discord.js": "^13.8.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/devRael1/discordjs-pagination"
@@ -29,5 +28,8 @@
   "devDependencies": {
     "create-ts-index": "^1.14.0",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "discord.js": "^14.0.3"
   }
 }

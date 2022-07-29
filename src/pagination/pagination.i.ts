@@ -1,9 +1,9 @@
 import {
     ButtonInteraction,
-    MessageEmbed,
+    Embed,
     Message,
     User,
-    Interaction,
+    ButtonStyle,
     CommandInteraction
 } from "discord.js"
 
@@ -11,7 +11,7 @@ export interface PaginationOptions {
     /**
      * Interaction to reply with the pagination system
      */
-    interaction?: CommandInteraction|Interaction
+    interaction?: CommandInteraction
 
     /**
      * Message to send the pagination system
@@ -26,7 +26,7 @@ export interface PaginationOptions {
     /**
      * array of embed messages to paginate
      */
-    embeds: MessageEmbed[]
+    embeds: Embed[]
 
     /**
      * customize your buttons!
@@ -73,5 +73,5 @@ export interface Buttons {
     value: ButtonsValues
     label?: string|null
     emoji?: string|null
-    style: "PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER"
+    style: ButtonStyle.Primary | ButtonStyle.Secondary | ButtonStyle.Success | ButtonStyle.Danger
 }
