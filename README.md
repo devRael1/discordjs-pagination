@@ -12,7 +12,7 @@
 # ❓ discordjs-pagination
 
 An advanced module with quick setup and different options to implement pagination system for Discord.js v13.
-<br>**_This version of the package will only support discord.js v13_**
+<br>**_This version of the package will only support discord.js v13 & discord.js v14 (Only v2.0.0)_**
 
 ## 📥 Installation
 
@@ -20,6 +20,11 @@ To install this module type the following command in your console:
 ```
 npm i @devraelfreeze/discordjs-pagination
 ```
+If you want install discordjs-pagination version to support **discord.js v14** type the following command in your console:
+```
+npm i @devraelfreeze/discordjs-pagination@2.0.0
+```
+
 ## ⚙️ Pagination Module Options
 | Options Object Name | Default Type | Description |
 | :--- | :---: | :--- |
@@ -33,7 +38,6 @@ npm i @devraelfreeze/discordjs-pagination
 | `time` | `number` | How long before pagination get disabled **(in ms)** |
 | `max` | `number` | Maximum interactions with buttons before disabling the pagination |
 | `customFilter` | `boolean` | Custom filter for message component collector <br /> **Must return boolean** |
-
 
 
 ## ⬇️ Examples
@@ -96,6 +100,31 @@ await pagination({
             label: 'Next Page',
             style: 'SUCCESS',
             emoji: null // Disable emoji for this button
+        }
+    ]
+});
+```
+### Use v2.0.0 of the module (with discord.js v14)
+```js
+const { ButtonStyle } = require('discord.js'); // Discord.js v14
+await pagination({
+    interaction: interaction,
+    embeds: arrayEmbeds, // Array of embeds objects
+    author: interaction.member.user,
+    time: 40000, // 40 seconds
+    fastSkip: false,
+    pageTravel: false,
+    buttons: [
+        {
+            value: TypesButtons.previous,
+            label: 'Previous Page',
+            style: ButtonStyle.Primary,
+            emoji: '◀️'
+        },
+        {
+            value: TypesButtons.next,
+            label: 'Next Page',
+            style: ButtonStyle.Success,
         }
     ]
 });
