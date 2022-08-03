@@ -26,6 +26,7 @@ npm i @devraelfreeze/discordjs-pagination
 | :--- | :---: | :--- |
 | `interaction` | `CommandInteraction` <br />or `Interaction` | Interaction to reply with the pagination system <br />(The interaction can be deferred or replied) |
 | `message` | `Message` | Message Class to send the pagination system |
+| `ephemeral` | `boolean` | If the returned message should be ephemeral (Can only use in Interaction) |
 | `embeds` | `[]` | Array of embeds to paginate |
 | `author` | `User` | Author's user class |
 | `buttons` | `Buttons[]` | Customization of your buttons <br />See examples below  |
@@ -53,6 +54,7 @@ await pagination({
     embeds: arrayEmbeds, // Array of embeds objects
     author: interaction.member.user,
     interaction: interaction,
+    ephemeral: true,
     time: 40000, // 40 seconds
     fastSkip: false,
     pageTravel: false,
