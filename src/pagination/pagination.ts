@@ -154,9 +154,13 @@ export const pagination = async (options: PaginationOptions) => {
                 time: 30000,
             }).then(async (i) => {
                 await i.deferUpdate();
-                const int = parseInt(i.fields.getTextInputValue('page_number'));
-                if (isNaN(int) || !(int <= embeds.length) || !(int >= 1)) return;
-                currentPage = int;
+                const page_number = i.fields.getTextInputValue('page_number');
+                const int = parseInt(page_number);
+                if (isNaN(int)) return i.followUp({
+                    content: `${i.member.user}, Please enter a valid page number!\n\`${page_number}\` is not a valid page number!`,
+                    ephemeral: true
+                });
+                int > embeds.length ? currentPage = embeds.length : int < embeds.length ? currentPage = 1 : currentPage = int;
                 initialMessage.edit({
                     embeds: [changeFooter()],
                     components: components()
