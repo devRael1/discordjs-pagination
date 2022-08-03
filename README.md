@@ -12,17 +12,13 @@
 # ❓ discordjs-pagination
 
 An advanced module with quick setup and different options to implement pagination system for Discord.js v13.
-<br>**_This version of the package will only support discord.js v13 & discord.js v14 (Only v2.0.0)_**
+<br>**_This version of the package will only support discord.js v13 & discord.js v14_**
 
 ## 📥 Installation
 
 To install this module type the following command in your console:
 ```
 npm i @devraelfreeze/discordjs-pagination
-```
-If you want install discordjs-pagination version to support **discord.js v14** type the following command in your console:
-```
-npm i @devraelfreeze/discordjs-pagination@2.0.0
 ```
 
 ## ⚙️ Pagination Module Options
@@ -44,7 +40,7 @@ npm i @devraelfreeze/discordjs-pagination@2.0.0
 ### Declare & Use Pagination System
 ```js
 /** Decalre the module */
-const { pagination, TypesButtons } = require('@devraelfreeze/discordjs-pagination');
+const { pagination, TypesButtons, StylesButton } = require('@devraelfreeze/discordjs-pagination');
 /** Use pagination system */
 await pagination({
     /** Pagination options here */
@@ -64,12 +60,12 @@ await pagination({
         {
             value: TypesButtons.previous,
             label: 'Previous Page',
-            style: 'SUCCESS'
+            style: StylesButton.Primary
         },
         {
             value: TypesButtons.next,
             label: 'Next Page',
-            style: 'SUCCESS'
+            style: StylesButton.Success
         }
     ]
 });
@@ -92,39 +88,14 @@ await pagination({
         {
             value: TypesButtons.previous,
             label: 'Previous Page',
-            style: 'SUCCESS',
+            style: StylesButton.Success,
             emoji: '◀️'
         },
         {
             value: TypesButtons.next,
             label: 'Next Page',
-            style: 'SUCCESS',
+            style: StylesButton.Success,
             emoji: null // Disable emoji for this button
-        }
-    ]
-});
-```
-### Use v2.0.0 of the module (with discord.js v14)
-```js
-const { ButtonStyle } = require('discord.js'); // Discord.js v14
-await pagination({
-    interaction: interaction,
-    embeds: arrayEmbeds, // Array of embeds objects
-    author: interaction.member.user,
-    time: 40000, // 40 seconds
-    fastSkip: false,
-    pageTravel: false,
-    buttons: [
-        {
-            value: TypesButtons.previous,
-            label: 'Previous Page',
-            style: ButtonStyle.Primary,
-            emoji: '◀️'
-        },
-        {
-            value: TypesButtons.next,
-            label: 'Next Page',
-            style: ButtonStyle.Success,
         }
     ]
 });
