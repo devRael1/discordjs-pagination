@@ -1,2 +1,2 @@
 export { pagination } from "./pagination";
-export { Buttons, ButtonsValues, TypesButtons, PaginationOptions } from "./pagination.i";
+export { Buttons, ButtonsValues, TypesButtons, StylesButton, PaginationOptions } from "./pagination.i";

@@ -65,13 +65,22 @@ export const TypesButtons = {
     last: 4,
     number: 5
 } as const;
+export const StylesButton = {
+    Primary: 1,
+    Secondary: 2,
+    Success: 3,
+    Danger: 4,
+    Link: 5
+} as const;
 
 type Keys = keyof typeof TypesButtons;
+type Styles = keyof typeof StylesButton;
 export type ButtonsValues = typeof TypesButtons[Keys];
+export type StylesButtonValues = typeof StylesButton[Styles];
 
 export interface Buttons {
     value: ButtonsValues
     label?: string|null
     emoji?: string|null
-    style: ButtonStyle.Primary | ButtonStyle.Secondary | ButtonStyle.Success | ButtonStyle.Danger
+    style: StylesButtonValues
 }

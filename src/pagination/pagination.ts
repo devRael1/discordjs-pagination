@@ -3,7 +3,6 @@ import {
     ActionRowBuilder,
     ButtonBuilder,
     ComponentType,
-    ButtonStyle,
     InteractionType,
     EmbedBuilder,
     BaseGuildTextChannel,
@@ -11,8 +10,8 @@ import {
     TextInputBuilder,
     TextInputStyle,
     ModalActionRowComponentBuilder
-} from "discord.js"
-import { TypesButtons, ButtonsValues, PaginationOptions } from "./pagination.i";
+} from "discord.js";
+import { TypesButtons, StylesButton, ButtonsValues, PaginationOptions } from "./pagination.i";
 
 const defaultEmojis = {
     first: "⬅️",
@@ -23,11 +22,11 @@ const defaultEmojis = {
 }
 
 const defaultStyles = {
-    first: ButtonStyle.Primary,
-    previous: ButtonStyle.Primary,
-    next: ButtonStyle.Primary,
-    last:  ButtonStyle.Primary,
-    number:  ButtonStyle.Success
+    first: StylesButton.Primary,
+    previous: StylesButton.Primary,
+    next: StylesButton.Primary,
+    last:  StylesButton.Primary,
+    number:  StylesButton.Success
 }
 
 export const pagination = async (options: PaginationOptions) => {
@@ -63,7 +62,7 @@ export const pagination = async (options: PaginationOptions) => {
                 let embed = new ButtonBuilder()
                     .setCustomId(value.toString())
                     .setDisabled(state || checkState(value))
-                    .setStyle(getButtonData(value)?.style || (defaultStyles[resolveButtonName(value)] as ButtonStyle));
+                    .setStyle(getButtonData(value)?.style || defaultStyles[resolveButtonName(value)]);
                 if (getButtonData(value)?.emoji !== null) embed.setEmoji(getButtonData(value)?.emoji || defaultEmojis[resolveButtonName(value)])
                 if (getButtonData(value)?.label) embed.setLabel(getButtonData(value)?.label);
                 accumulator.push(embed);
@@ -72,7 +71,6 @@ export const pagination = async (options: PaginationOptions) => {
             []
         )
     }
-
 
     const components = (state?: boolean) => [
         new ActionRowBuilder<ButtonBuilder>().addComponents(generateButtons(state))
@@ -83,12 +81,12 @@ export const pagination = async (options: PaginationOptions) => {
         const newEmbed = new EmbedBuilder(embed.toJSON());
         if (embed?.footer?.text) {
             return newEmbed.setFooter({
-                text: `${embed.footer.text} - Page ${currentPage} of ${embeds.length}`,
+                text: `${embed.footer.text} - Page ${currentPage} / ${embeds.length}`,
                 iconURL: embed.footer.iconURL
             });
         }
         return newEmbed.setFooter({
-            text: `Page ${currentPage} of ${embeds.length}`
+            text: `Page ${currentPage} / ${embeds.length}`
         });
     }
 
