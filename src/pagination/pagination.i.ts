@@ -19,6 +19,11 @@ export interface PaginationOptions {
     message?: Message
 
     /**
+     * Whether the reply should be ephemeral or not
+     */
+    ephemeral?: boolean
+
+    /**
      * Author's user class
      */
     author: User
