@@ -1,6 +1,6 @@
 {
   "name": "@devraelfreeze/discordjs-pagination",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "A pagination module for Discord.js v13 & v14",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
