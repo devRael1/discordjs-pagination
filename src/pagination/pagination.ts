@@ -155,17 +155,15 @@ export const pagination = async (options: PaginationOptions) => {
                 filter: (_i) => _i.user.id === author.id && _i.customId === 'choose_page_modal',
                 time: 30000,
             }).then(async (i) => {
+                await i.deferUpdate();
                 const page_number = i.fields.getTextInputValue('page_number');
                 const int = parseInt(page_number);
-                if (isNaN(int)) {
-                    await i.deferUpdate();
-                    return i.followUp({
-                        content: `${i.member.user}, Please enter a valid page number!\n\`${page_number}\` is not a valid page number!`,
-                        ephemeral: true
-                    });
-                }
+                if (isNaN(int)) return i.followUp({
+                    content: `${i.member.user}, Please enter a valid page number!\n\`${page_number}\` is not a valid page number!`,
+                    ephemeral: true
+                });
                 int > embeds.length ? currentPage = embeds.length : int < embeds.length ? currentPage = 1 : currentPage = int;
-                await i.update({
+                await initialMessage.editReply({
                     embeds: [changeFooter()],
                     components: components(),
                     ephemeral: ephemeralMessage
@@ -192,8 +190,12 @@ export const pagination = async (options: PaginationOptions) => {
     });
 
     collector.on("end", () => {
-        if (!ephemeralMessage) {
+        if (type === 'message') {
             initialMessage.edit({
+                components: []
+            });
+        } else {
+            initialMessage.editReply({
                 components: []
             });
         }
