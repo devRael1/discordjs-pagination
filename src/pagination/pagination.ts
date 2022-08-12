@@ -74,7 +74,7 @@ export const pagination = async (options: PaginationOptions) => {
 
 
     const components = (state?: boolean) => [
-        new MessageActionRow().addComponents(generateButtons(state))
+        new MessageActionRow<MessageButton>().addComponents(generateButtons(state))
     ]
 
     const changeFooter = () => {
