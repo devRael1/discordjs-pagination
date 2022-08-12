@@ -20,7 +20,7 @@
   "author": "devRael",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^13.8.0"
+    "discord.js": "^13.10.2"
   },
   "repository": {
     "type": "git",
