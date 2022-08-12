@@ -70,7 +70,7 @@ export const pagination = async (options: PaginationOptions) => {
                 return accumulator;
             },
             []
-        )
+        );
     }
 
     const components = (state?: boolean) => [

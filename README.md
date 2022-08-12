@@ -11,7 +11,7 @@
 
 # ❓ discordjs-pagination
 
-An advanced module with quick setup and different options to implement pagination system for Discord.js v13.
+An advanced module with quick setup and different options to implement pagination system for Discord.js.
 <br>**_This version of the package will only support discord.js v13 & discord.js v14_**
 
 ## 📥 Installation
