@@ -29,8 +29,9 @@ const defaultStyles = {
 }
 
 export const pagination = async (options: PaginationOptions) => {
-    const { interaction, message, author, embeds, buttons, time, max, customFilter, fastSkip, pageTravel } = options
+    const { interaction, message, ephemeral, author, embeds, buttons, time, max, customFilter, fastSkip, pageTravel } = options
     let currentPage = 1;
+    const ephemeralMessage = ephemeral !== null ? ephemeral : false;
 
     if (!interaction && !message) throw new Error("Pagination requires either an interaction or a message object");
     const type = interaction ? 'interaction' : 'message';
@@ -99,6 +100,7 @@ export const pagination = async (options: PaginationOptions) => {
                 initialMessage = await interaction.reply({
                     embeds: [changeFooter()],
                     components: components(),
+                    ephemeral: ephemeralMessage,
                     fetchReply: true
                 });
             } else {
@@ -154,12 +156,17 @@ export const pagination = async (options: PaginationOptions) => {
                 time: 30000,
             }).then(async (i) => {
                 await i.deferUpdate();
-                const int = parseInt(i.fields.getTextInputValue('page_number'));
-                if (isNaN(int) || !(int <= embeds.length) || !(int >= 1)) return;
-                currentPage = int;
-                initialMessage.edit({
+                const page_number = i.fields.getTextInputValue('page_number');
+                const int = parseInt(page_number);
+                if (isNaN(int)) return i.followUp({
+                    content: `${i.member.user}, Please enter a valid page number!\n\`${page_number}\` is not a valid page number!`,
+                    ephemeral: true
+                });
+                int > embeds.length ? currentPage = embeds.length : int < embeds.length ? currentPage = 1 : currentPage = int;
+                await initialMessage.editReply({
                     embeds: [changeFooter()],
-                    components: components()
+                    components: components(),
+                    ephemeral: ephemeralMessage
                 });
             });
         });
@@ -177,13 +184,20 @@ export const pagination = async (options: PaginationOptions) => {
 
         await interaction.update({
             embeds: [changeFooter()],
-            components: components()
+            components: components(),
+            ephemeral: ephemeralMessage
         });
     });
 
     collector.on("end", () => {
-        initialMessage.edit({
-            components: []
-        });
+        if (type === 'message') {
+            initialMessage.edit({
+                components: []
+            });
+        } else {
+            initialMessage.editReply({
+                components: []
+            });
+        }
     });
 }
