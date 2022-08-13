@@ -13,7 +13,8 @@
 
 An advanced module with quick setup and different options to implement pagination system for Discord.js.
 <br>**_This version of the package will only support discord.js v14._**
-<br>If you want this package for discord.js v13, please install v1.8...
+
+### <br>If you want this package for discord.js v13, please install v1.8...
 
 ## 📥 Installation
 
