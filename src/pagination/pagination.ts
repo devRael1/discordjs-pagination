@@ -191,11 +191,11 @@ export const pagination = async (options: PaginationOptions) => {
     collector.on("end", () => {
         if (type === 'message') {
             initialMessage.edit({
-                components: []
+                components: components(true)
             });
         } else {
             interaction.editReply({
-                components: []
+                components: components(true)
             });
         }
     });
