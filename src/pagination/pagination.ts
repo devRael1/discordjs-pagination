@@ -95,13 +95,12 @@ export const pagination = async (options: PaginationOptions) => {
     let channel: TextChannel = message?.channel as TextChannel || interaction?.channel as TextChannel;
 
     if (type === 'interaction' && channel) {
-        if (interaction.isCommand() || interaction.isApplicationCommand()) {
-            if (!interaction.replied) {
-                initialMessage = await interaction.reply({
+        if (interaction.isCommand()) {
+            if (!interaction.replied && !interaction.deferred) {
+                await interaction.deferReply({ ephemeral: ephemeralMessage });
+                initialMessage = await interaction.editReply({
                     embeds: [changeFooter()],
-                    components: components(),
-                    ephemeral: ephemeralMessage,
-                    fetchReply: true
+                    components: components()
                 });
             } else {
                 initialMessage = await interaction.editReply({
@@ -195,7 +194,7 @@ export const pagination = async (options: PaginationOptions) => {
                 components: []
             });
         } else {
-            initialMessage.editReply({
+            interaction.editReply({
                 components: []
             });
         }

@@ -3,7 +3,6 @@ import {
     MessageEmbed,
     Message,
     User,
-    Interaction,
     CommandInteraction
 } from "discord.js"
 
@@ -11,7 +10,7 @@ export interface PaginationOptions {
     /**
      * Interaction to reply with the pagination system
      */
-    interaction?: CommandInteraction|Interaction
+    interaction?: CommandInteraction
 
     /**
      * Message to send the pagination system
