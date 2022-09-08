@@ -9,14 +9,14 @@
 <img alt="npm (tag)" src="https://img.shields.io/npm/v/@devraelfreeze/discordjs-pagination/latest?color=yellow&label=%40devraelfreeze%2Fdiscordjs-pagination">
 </div>
 
-# ❓ discordjs-pagination
+# `❓ discordjs-pagination`
 
 An advanced module with quick setup and different options to implement pagination system for Discord.js.
 <br>**_This version of the package will only support discord.js v14._**
 
 ### <br>If you want this package for discord.js v13, please install v1.8...
 
-## 📥 Installation
+## `📥 Installation`
 
 To install this module type the following command in your console:
 ```
@@ -39,7 +39,7 @@ npm i @devraelfreeze/discordjs-pagination
 | `customFilter` | `boolean` | Custom filter for message component collector <br /> **Must return boolean** |
 
 
-## ⬇️ Examples
+## `⬇️ Examples`
 ### Declare & Use Pagination System
 ```js
 /** Decalre the module */
@@ -105,19 +105,19 @@ await pagination({
 });
 ```
 
-## 🐛 Bug Reports
+## `🐛 Bug Reports`
 
 If you have any bugs or trouble setting the module up, feel free to open an issue on [Github Repository](https://github.com/devRael1/discordjs-pagination)
 <br>
 ### If you want more support, you can contact me on Discord: `devRael#0123`
 
-## 🗃️ Old Versions
+## `🗃️ Old Versions`
 If you want to use old version, you can use command
 ```
 npm i @devraelfreeze/discordjs-pagination@<version>
 ```
 
-## 📝 License
+## `📝 License`
 Copyright © 2022 [devRael1](https://github.com/devRael1)
 <br>This project is MIT licensed.
 <br>This is not an official Discord product. It is not affiliated with or endorsed by Discord Inc.
