@@ -32,6 +32,7 @@ npm i @devraelfreeze/discordjs-pagination
 | `embeds` | `[]` | Array of embeds to paginate |
 | `author` | `User` | Author's user class |
 | `buttons` | `Buttons[]` | Customization of your buttons <br />See examples below  |
+| `disableButtons` | `boolean` | If the buttons should be disabled on timeout |
 | `pageTravel` | `boolean` | Travel pages by sending page numbers? (With Modal Interaction) |
 | `fastSkip` | `boolean` | Create two additional buttons, a button to skip to the end and a button to skip to the first page |
 | `time` | `number` | How long before pagination get disabled **(in ms)** |

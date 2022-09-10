@@ -30,7 +30,7 @@ const defaultStyles = {
 }
 
 export const pagination = async (options: PaginationOptions) => {
-    const { interaction, message, ephemeral, author, embeds, buttons, time, max, customFilter, fastSkip, pageTravel } = options
+    const { interaction, message, ephemeral, author, embeds, buttons, time, max, customFilter, fastSkip, pageTravel, disableButtons } = options
     let currentPage = 1;
     const ephemeralMessage = ephemeral !== null ? ephemeral : false;
 
@@ -191,11 +191,11 @@ export const pagination = async (options: PaginationOptions) => {
     collector.on("end", () => {
         if (type === 'message') {
             initialMessage.edit({
-                components: components(true)
+                components: components(disableButtons)
             });
         } else {
             interaction.editReply({
-                components: components(true)
+                components: components(disableButtons)
             });
         }
     });

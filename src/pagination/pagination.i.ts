@@ -39,6 +39,11 @@ export interface PaginationOptions {
     buttons?: Buttons[]
 
     /**
+     * disable buttons
+     */
+    disableButtons?: boolean
+
+    /**
      * travel pages by sending page numbers?
      */
     pageTravel?: boolean
