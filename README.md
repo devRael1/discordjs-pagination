@@ -9,18 +9,18 @@
 <img alt="npm (tag)" src="https://img.shields.io/npm/v/@devraelfreeze/discordjs-pagination/latest?color=yellow&label=%40devraelfreeze%2Fdiscordjs-pagination">
 </div>
 
-# ❓ discordjs-pagination
+# `❓ discordjs-pagination`
 
 An advanced module with quick setup and different options to implement pagination system for Discord.js v13.
-<br>**_This version of the package will only support discord.js v13_**
+<br>**_The 1.8... versions of the package will only support discord.js v13_**
 
-## 📥 Installation
+## `📥 Installation`
 
 To install this module type the following command in your console:
 ```
 npm i @devraelfreeze/discordjs-pagination
 ```
-## ⚙️ Pagination Module Options
+## `⚙️ Pagination Module Options`
 | Options Object Name | Default Type | Description |
 | :--- | :---: | :--- |
 | `interaction` | `CommandInteraction` <br />or `Interaction` | Interaction to reply with the pagination system <br />(The interaction can be deferred or replied) |
@@ -29,6 +29,7 @@ npm i @devraelfreeze/discordjs-pagination
 | `embeds` | `[]` | Array of embeds to paginate |
 | `author` | `User` | Author's user class |
 | `buttons` | `Buttons[]` | Customization of your buttons <br />See examples below  |
+| `disableButtons` | `boolean` | Disable buttons or remove it after time |
 | `pageTravel` | `boolean` | Travel pages by sending page numbers? (With Modal Interaction) |
 | `fastSkip` | `boolean` | Create two additional buttons, a button to skip to the end and a button to skip to the first page |
 | `time` | `number` | How long before pagination get disabled **(in ms)** |
@@ -37,7 +38,7 @@ npm i @devraelfreeze/discordjs-pagination
 
 
 
-## ⬇️ Examples
+## `⬇️ Examples`
 ### Declare & Use Pagination System
 ```js
 /** Decalre the module */
@@ -57,6 +58,7 @@ await pagination({
     time: 40000, // 40 seconds
     ephemeral: true,
     fastSkip: false,
+    disableButtons: true,
     pageTravel: false,
     buttons: [
         {
@@ -81,6 +83,7 @@ await pagination({
     author: interaction.member.user,
     time: 40000, // 40 seconds
     ephemeral: false,
+    disableButtons: true,
     fastSkip: false,
     pageTravel: false,
     /** Enable buttons pagination system only for member with ID: 123456789 */
@@ -104,19 +107,19 @@ await pagination({
 });
 ```
 
-## 🐛 Bug Reports
+## `🐛 Bug Reports`
 
 If you have any bugs or trouble setting the module up, feel free to open an issue on [Github Repository](https://github.com/devRael1/discordjs-pagination)
 <br>
 ### If you want more support, you can contact me on Discord: `devRael#0123`
 
-## 🗃️ Old Versions
+## `🗃️ Old Versions`
 If you want to use old version, you can use command
 ```
 npm i @devraelfreeze/discordjs-pagination@<version>
 ```
 
-## 📝 License
+## `📝 License`
 Copyright © 2022 [devRael1](https://github.com/devRael1)
 <br>This project is MIT licensed.
 <br>This is not an official Discord product. It is not affiliated with or endorsed by Discord Inc.
