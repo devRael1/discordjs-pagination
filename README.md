@@ -12,7 +12,7 @@
 # `❓ discordjs-pagination`
 
 An advanced module with quick setup and different options to implement pagination system for Discord.js.
-<br>**_This version of the package will only support discord.js v14._**
+<br>**_The 2... versions of the package will only support discord.js v14._**
 
 ### <br>If you want this package for discord.js v13, please install v1.8...
 
@@ -32,6 +32,7 @@ npm i @devraelfreeze/discordjs-pagination
 | `embeds` | `[]` | Array of embeds to paginate |
 | `author` | `User` | Author's user class |
 | `buttons` | `Buttons[]` | Customization of your buttons <br />See examples below  |
+| `disableButtons` | `boolean` | Disable or remove buttons after timeout |
 | `pageTravel` | `boolean` | Travel pages by sending page numbers? (With Modal Interaction) |
 | `fastSkip` | `boolean` | Create two additional buttons, a button to skip to the end and a button to skip to the first page |
 | `time` | `number` | How long before pagination get disabled **(in ms)** |
@@ -58,6 +59,7 @@ await pagination({
     interaction: interaction,
     ephemeral: true,
     time: 40000, // 40 seconds
+    disableButtons: false, // Remove buttons after timeout
     fastSkip: false,
     pageTravel: false,
     buttons: [
@@ -83,6 +85,7 @@ await pagination({
     author: interaction.member.user,
     time: 40000, // 40 seconds
     fastSkip: false,
+    disableButtons: true,
     pageTravel: false,
     /** Enable buttons pagination system only for member with ID: 123456789 */
     customFilter: (interaction) => {
