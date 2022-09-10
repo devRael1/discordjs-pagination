@@ -38,6 +38,11 @@ export interface PaginationOptions {
     buttons?: Buttons[]
 
     /**
+     * Disable button or delete button after time
+     */
+    disableButtons?: boolean
+
+    /**
      * travel pages by sending page numbers?
      */
     pageTravel?: boolean
