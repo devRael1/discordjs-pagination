@@ -30,8 +30,9 @@ const defaultStyles = {
 }
 
 export const pagination = async (options: PaginationOptions) => {
-    const { interaction, message, ephemeral, author, embeds, buttons, time, max, customFilter, fastSkip, pageTravel } = options
+    const { interaction, message, ephemeral, author, disableButtons, embeds, buttons, time, max, customFilter, fastSkip, pageTravel } = options
     let currentPage = 1;
+    const disableB = disableButtons || false;
     const ephemeralMessage = ephemeral !== null ? ephemeral : false;
 
     if (!interaction && !message) throw new Error("Pagination requires either an interaction or a message object");
@@ -191,11 +192,11 @@ export const pagination = async (options: PaginationOptions) => {
     collector.on("end", () => {
         if (type === 'message') {
             initialMessage.edit({
-                components: []
+                components: disableB ? components(true) : []
             });
         } else {
             interaction.editReply({
-                components: []
+                components: disableB ? components(true) : []
             });
         }
     });
