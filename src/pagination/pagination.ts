@@ -9,7 +9,8 @@ import {
     ModalBuilder,
     TextInputBuilder,
     TextInputStyle,
-    ModalActionRowComponentBuilder
+    ModalActionRowComponentBuilder,
+    ModalSubmitInteraction
 } from "discord.js";
 import { TypesButtons, StylesButton, ButtonsValues, PaginationOptions } from "./pagination.i";
 
@@ -25,8 +26,8 @@ const defaultStyles = {
     first: StylesButton.Primary,
     previous: StylesButton.Primary,
     next: StylesButton.Primary,
-    last:  StylesButton.Primary,
-    number:  StylesButton.Success
+    last: StylesButton.Primary,
+    number: StylesButton.Success
 }
 
 export const pagination = async (options: PaginationOptions) => {
@@ -98,19 +99,14 @@ export const pagination = async (options: PaginationOptions) => {
     if (type === 'interaction' && channel) {
         if (interaction.type === InteractionType.ApplicationCommand) {
             if (!interaction.replied && !interaction.deferred) {
-                await interaction.deferReply({ ephemeral: ephemeralMessage })
-                initialMessage = await interaction.editReply({
-                    embeds: [changeFooter()],
-                    components: components()
-                });
-            } else {
-                initialMessage = await interaction.editReply({
-                    embeds: [changeFooter()],
-                    components: components()
-                });
+                await interaction.deferReply({ ephemeral: ephemeralMessage });
             }
+            initialMessage = await interaction.editReply({
+                embeds: [changeFooter()],
+                components: components()
+            });
         }
-    } else if (type === 'message' && channel) {
+    } else {
         initialMessage = await channel.send({
             embeds: [changeFooter()],
             components: components()
@@ -135,7 +131,7 @@ export const pagination = async (options: PaginationOptions) => {
     let collectorModal;
 
     if (pageTravel) {
-        collectorModal = initialMessage.createMessageComponentCollector(collectorOptions((_i) => _i.user.id === author.id && parseInt(_i.customId) === 5));
+        collectorModal = initialMessage.createMessageComponentCollector(collectorOptions((_i: ModalSubmitInteraction) => _i.user.id === author.id && parseInt(_i.customId) === 5));
         collectorModal.on("collect", async (ButtonInteraction) => {
             // Show modal
             const modal = new ModalBuilder()
@@ -152,10 +148,9 @@ export const pagination = async (options: PaginationOptions) => {
             await ButtonInteraction.showModal(modal);
 
             await ButtonInteraction.awaitModalSubmit({
-                filter: (_i) => _i.user.id === author.id && _i.customId === 'choose_page_modal',
+                filter: (_i: ButtonInteraction) => _i.user.id === author.id && _i.customId === 'choose_page_modal',
                 time: 30000,
             }).then(async (i) => {
-                await i.deferUpdate();
                 const page_number = i.fields.getTextInputValue('page_number');
                 const int = parseInt(page_number);
                 if (isNaN(int)) return i.followUp({
@@ -163,7 +158,7 @@ export const pagination = async (options: PaginationOptions) => {
                     ephemeral: true
                 });
                 int > embeds.length ? currentPage = embeds.length : int < embeds.length ? currentPage = 1 : currentPage = int;
-                await initialMessage.editReply({
+                await i.update({
                     embeds: [changeFooter()],
                     components: components(),
                     ephemeral: ephemeralMessage
@@ -172,7 +167,7 @@ export const pagination = async (options: PaginationOptions) => {
         });
     }
 
-    collector.on("collect", async (interaction) => {
+    collector.on("collect", async (interaction: ButtonInteraction) => {
         const value = parseInt(interaction.customId) as ButtonsValues;
 
         switch (value) {
@@ -184,8 +179,7 @@ export const pagination = async (options: PaginationOptions) => {
 
         await interaction.update({
             embeds: [changeFooter()],
-            components: components(),
-            ephemeral: ephemeralMessage
+            components: components()
         });
     });
 
