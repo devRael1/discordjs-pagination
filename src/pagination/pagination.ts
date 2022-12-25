@@ -81,11 +81,12 @@ export const pagination = async (options: PaginationOptions) => {
 
     const changeFooter = () => {
         const embed = embeds[currentPage - 1];
-        const newEmbed = new EmbedBuilder(embed.toJSON());
-        if (embed?.footer?.text) {
+        const embedJSON = embed.toJSON();
+        const newEmbed = new EmbedBuilder(embedJSON);
+        if (Object.prototype.hasOwnProperty.call(embedJSON, 'footer')) {
             return newEmbed.setFooter({
-                text: `${embed.footer.text} - Page ${currentPage} / ${embeds.length}`,
-                iconURL: embed.footer.iconURL
+                text: `Page ${currentPage} / ${embeds.length} - ${embedJSON.footer.text}`,
+                iconURL: embedJSON.footer.icon_url
             });
         }
         return newEmbed.setFooter({
