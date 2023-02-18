@@ -20,7 +20,7 @@ An advanced module with quick setup and different options to implement paginatio
 
 To install this module type the following command in your console:
 ```
-npm i @devraelfreeze/discordjs-pagination
+npm install @devraelfreeze/discordjs-pagination
 ```
 
 ## ⚙️ Pagination Module Options
