@@ -136,6 +136,8 @@ npm install @devraelfreeze/discordjs-pagination@<version>
 * Create new `customComponents` parameter to let the user choose to add buttons / selections menus in the
   components of the pagination system.
 * Create new `Screenshots` section in README and show examples
+* Make the package compatible so that it takes into account an array of `Message` objects and not only an array of 
+  `Embed` objects.
 
 ## `📝 License`
 Copyright © 2022 [devRael1](https://github.com/devRael1)
