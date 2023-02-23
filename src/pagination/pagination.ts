@@ -170,7 +170,7 @@ export const pagination = async (options: PaginationOptions) => {
             if (int > embeds.length) {
                currentPage = embeds.length;
             } else {
-               if (int < embeds.length) {
+               if (int <= 0) {
                   currentPage = 1;
                } else {
                   currentPage = int;
