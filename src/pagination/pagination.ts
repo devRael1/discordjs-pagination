@@ -109,9 +109,7 @@ export const pagination = async (options: PaginationOptions) => {
    let channel: BaseGuildTextChannel = message?.channel as BaseGuildTextChannel || interaction?.channel as BaseGuildTextChannel;
    
    if (type === 'interaction' && channel) {
-      if (!interaction.replied && !interaction.deferred) {
-         await interaction.deferReply({ephemeral: ephemeralMessage});
-      }
+      await interaction.deferReply({ephemeral: ephemeralMessage}).catch(() => ({}));
       initialMessage = await interaction.editReply({
          embeds: [changeFooter()],
          components: components()
