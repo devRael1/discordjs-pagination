@@ -9,10 +9,10 @@
 <img alt="npm (tag)" src="https://img.shields.io/npm/v/@devraelfreeze/discordjs-pagination/latest?color=yellow&label=%40devraelfreeze%2Fdiscordjs-pagination">
 </div>
 
-# `❓ discordjs-pagination`
+# `❓discordjs-pagination`
 
 An advanced module with quick setup and different options to implement pagination system for Discord.js.
-<br>**_This package only supports discord.js v14._**
+<br>**_This package only support discord.js v14._**
 
 ### <br>I will not do any more updates for version 1.8.x.
 
@@ -26,17 +26,17 @@ To install this module type the following command in your console:
 npm install @devraelfreeze/discordjs-pagination
 ```
 
-## ⚙️ Pagination Module Options
+## `⚙️ Pagination Module Options`
 
 | Options Object Name |                           Default Type                           | Description                                                                                        |
 |:--------------------|:----------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------|
 | `interaction`       | `MessageComponentInteraction` <br />or<br />`CommandInteraction` | Interaction to reply with the pagination system <br />(The interaction can be deferred or replied) |
 | `message`           |                            `Message`                             | Message Object to send the pagination system                                                       |
 | `ephemeral`         |                            `boolean`                             | If the returned message should be ephemeral (Can only use in Interaction)                          |
-| `embeds`            |                               `[]`                               | Array of embeds to paginate                                                                        |
+| `embeds`            |                            `Embed[]`                             | Array of embeds to paginate                                                                        |
 | `author`            |                              `User`                              | Author's user class                                                                                |
-| `buttons`           |                           `Buttons[]`                            | Customization of your buttons <br />See examples below                                             |
-| `disableButtons`    |                            `boolean`                             | Disable or remove buttons after timeout                                                            |
+| `buttons`           |                           `Buttons[]`                            | Customization of your buttons <br />*See examples below*                                           |
+| `disableButtons`    |                            `boolean`                             | Disable or remove buttons after timeout (true = disable, false = remove)                           |
 | `pageTravel`        |                            `boolean`                             | Travel pages by sending page numbers (With Modal Interaction)                                      |
 | `fastSkip`          |                            `boolean`                             | Create two additional buttons, a button to skip to the end and a button to skip to the first page  |
 | `time`              |                             `number`                             | How long before pagination get disabled **(in ms)**                                                |
