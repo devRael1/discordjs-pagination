@@ -124,8 +124,8 @@ If you have any bugs or trouble setting the module up, feel free to open an issu
 on [GitHub Repository](https://github.com/devRael1/discordjs-pagination)
 <br>
 
-### If you want more support, you can contact me on Discord:
-`devRael#0123 (ID: 728231238707445801)`
+### If you want more support, you can contact me.
+Discord: `1043813027205619804`
 ## `🗃️ Old Versions`
 If you want to use old version, you can use command
 ```
