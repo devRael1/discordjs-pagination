@@ -35,6 +35,7 @@ export const pagination = async (options: PaginationOptions) => {
       ephemeral,
       author,
       disableButtons,
+      deleteAtEnd,
       embeds,
       buttons,
       time,
@@ -209,13 +210,26 @@ export const pagination = async (options: PaginationOptions) => {
    
    collector.on("end", () => {
       if (type === 'message') {
-         initialMessage.edit({
-            components: disableB ? components(true) : []
-         });
-      } else {
-         interaction.editReply({
-            components: disableB ? components(true) : []
-         });
+         if (deleteAtEnd) {
+            initialMessage.delete()
+                  .catch(() => ({}));
+         }
+         else {
+            initialMessage.edit({
+                  components: disableB ? components(true) : []
+            }).catch(() => ({}));
+         }
+      }
+      else {
+         if (deleteAtEnd) {
+            interaction.deleteReply()
+                  .catch(() => ({}));
+         }
+         else {
+            interaction.editReply({
+                  components: disableB ? components(true) : []
+            }).catch(() => ({}));
+         }
       }
    });
 }
