@@ -41,6 +41,11 @@ export interface PaginationOptions {
     * Disable or remove buttons after timeout
     */
    disableButtons?: boolean
+
+   /**
+     * Delete or not the embed or message after timeout
+     */
+   deleteAtEnd?: boolean;
    
    /**
     * travel pages by sending page numbers?

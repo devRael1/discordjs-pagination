@@ -37,6 +37,7 @@ npm install @devraelfreeze/discordjs-pagination
 | `author`            |                              `User`                              | Author's user class                                                                                |
 | `buttons`           |                           `Buttons[]`                            | Customization of your buttons <br />*See examples below*                                           |
 | `disableButtons`    |                            `boolean`                             | Disable or remove buttons after timeout (true = disable, false = remove)                           |
+| `deleteAtEnd`       |                            `boolean`                             | Delete or not the embed or message after timeout (true = remove, false = keep)                     |
 | `pageTravel`        |                            `boolean`                             | Travel pages by sending page numbers (With Modal Interaction)                                      |
 | `fastSkip`          |                            `boolean`                             | Create two additional buttons, a button to skip to the end and a button to skip to the first page  |
 | `time`              |                             `number`                             | How long before pagination get disabled **(in ms)**                                                |
