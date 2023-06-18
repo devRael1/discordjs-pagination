@@ -243,7 +243,7 @@ export const pagination = async (options: PaginationOptions) => {
          else {
             interaction.editReply({
                content: afterTimeoutHeader,
-               omponents: disableB ? components(true) : []
+               components: disableB ? components(true) : []
             }).catch(err => {
                if (err.code === 50027) {
                   console.log(`Webhook token has expired : ${client ? "trying to edit embed's header from it's id..." : "no client found in option, cannot edit embed's header"}`);
