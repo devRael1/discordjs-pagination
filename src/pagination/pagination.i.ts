@@ -22,6 +22,16 @@ export interface PaginationOptions {
     * Message to send the pagination system
     */
    message?: Message
+
+   /**
+    * A simple text message sent just before each paginated embeds
+    */
+   beforeEmbedHeader?: string
+      
+   /**
+    * A simple text message sent just before the paginated embeds at the end of timer
+    */
+   afterTimeoutHeader?: string
    
    /**
     * Whether the reply should be ephemeral or not

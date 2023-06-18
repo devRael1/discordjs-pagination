@@ -33,6 +33,8 @@ export const pagination = async (options: PaginationOptions) => {
       client,
       interaction,
       message,
+      beforeEmbedHeader,
+      afterTimeoutHeader,
       ephemeral,
       author,
       disableButtons,
@@ -113,6 +115,7 @@ export const pagination = async (options: PaginationOptions) => {
    if (type === 'interaction' && channel) {
       await interaction.deferReply({ephemeral: ephemeralMessage}).catch(() => ({}));
       initialMessage = await interaction.editReply({
+         content: beforeEmbedHeader,
          embeds: [changeFooter()],
          components: components()
       });
@@ -239,8 +242,24 @@ export const pagination = async (options: PaginationOptions) => {
          }
          else {
             interaction.editReply({
-                  components: disableB ? components(true) : []
-            }).catch(() => ({}));
+               content: afterTimeoutHeader,
+               omponents: disableB ? components(true) : []
+            }).catch(err => {
+               if (err.code === 50027) {
+                  console.log(`Webhook token has expired : ${client ? "trying to edit embed's header from it's id..." : "no client found in option, cannot edit embed's header"}`);
+                  if (client) {
+                     client.channels.fetch(interaction.channelId).then(channel => {
+                        channel.messages.fetch(initialMessage.id)
+                           .then(msg => {
+                              msg.edit(afterTimeoutHeader);
+                              console.log(`Message with ${initialMessage.id} id has been modified successfully.`);
+                           })
+                           .catch(err => console.log(`Message does not exist or other error has been raised :\n${err}`));
+                     })
+                     .catch(err => console.log(`Channel does not exist or other error has been raised :\n${err}`));
+                  }
+               }
+            });
          }
       }
    });

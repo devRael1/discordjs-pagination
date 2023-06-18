@@ -33,6 +33,8 @@ npm install @devraelfreeze/discordjs-pagination
 | `client`            |                             `Client`                             | Bot client, **only useful if** `time >= 900000` (i.e greater than 15 minutes)                      |
 | `interaction`       | `MessageComponentInteraction` <br />or<br />`CommandInteraction` | Interaction to reply with the pagination system <br />(The interaction can be deferred or replied) |
 | `message`           |                            `Message`                             | Message Object to send the pagination system                                                       |
+| `beforeEmbedHeader` |                             `string`                             | Simple text message sent just before the embed                                                     |
+| `afterTimeoutHeader`|                             `string`                             | Simple text message sent just before the embed **but only at the end of time**                     |
 | `ephemeral`         |                            `boolean`                             | If the returned message should be ephemeral (Can only use in Interaction)                          |
 | `embeds`            |                            `Embed[]`                             | Array of embeds to paginate                                                                        |
 | `author`            |                              `User`                              | Author's user class                                                                                |
