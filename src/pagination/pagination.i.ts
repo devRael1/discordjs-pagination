@@ -1,4 +1,5 @@
 import {
+   Client,
    Embed,
    Message,
    User,
@@ -7,6 +8,11 @@ import {
 } from "discord.js"
 
 export interface PaginationOptions {
+   /**
+    * Bot client, only useful if time >= 900000 (i.e greater than 15 minutes)
+    */
+   client?: Client
+
    /**
     * Interaction to reply with the pagination system
     */
