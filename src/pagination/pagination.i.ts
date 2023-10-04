@@ -1,6 +1,7 @@
-import {
+import type {
    Client,
-   Embed,
+   APIEmbed,
+   JSONEncodable,
    Message,
    User,
    MessageComponentInteraction,
@@ -36,7 +37,7 @@ export interface PaginationOptions {
    /**
     * array of embed messages to paginate
     */
-   embeds: Embed[]
+   embeds: (APIEmbed | JSONEncodable<APIEmbed>)[]
    
    /**
     * customize your buttons!
